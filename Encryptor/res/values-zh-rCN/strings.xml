@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">文字加密器</string>
+    <string name="action_settings">设置</string>
+    <string name="ENCRYPTED">加密</string>
+    <string name="DECRYPTED">解密</string>
+
+</resources>
