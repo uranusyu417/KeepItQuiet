@@ -5,5 +5,8 @@
     <string name="action_settings">Settings</string>
     <string name="ENCRYPTED">ENCRYPTED</string>
     <string name="DECRYPTED">DECRYPTED</string>
+    <string name="CONTENT_HINT">Please enter content for encryption or decryption</string>
+    <string name="KEY_HINT">key(1&#8211;255)</string>
+    <string name="KEY_ERR">Key value is not within 1&#8211;255</string>
 
 </resources>

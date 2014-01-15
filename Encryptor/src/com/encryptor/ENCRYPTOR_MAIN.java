@@ -4,27 +4,21 @@ import java.nio.charset.Charset;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 public class ENCRYPTOR_MAIN extends Activity {
-	
+
 	RadioGroup radioGroupEncryptionStatus;
 	EditText editTextContent;
 	ENCRYPTION_STATUS EncryptionStatus;
+    EditText editTextKey;
 	
 	//for debug
 	TextView textViewDebug;
@@ -36,10 +30,12 @@ public class ENCRYPTOR_MAIN extends Activity {
 		setContentView(R.layout.activity_encryptor__main);
 		radioGroupEncryptionStatus = (RadioGroup)findViewById(R.id.radioGroupEncryptionStatus);
 		editTextContent = (EditText)findViewById(R.id.editTextContent);
+        editTextKey = (EditText)findViewById(R.id.editTextKey);
+
 		//for debug
 		textViewDebug = (TextView)findViewById(R.id.textViewDebug);
 		////////////////////////////////////
-		
+
 		Button btn = (Button)findViewById(R.id.buttonUpdate);
 		btn.setOnClickListener(new OnClickListener(){
 
@@ -47,6 +43,7 @@ public class ENCRYPTOR_MAIN extends Activity {
 			public void onClick(View arg0) {
 				updateContent();
 			}});
+
 	}
 
 	@Override
@@ -74,33 +71,35 @@ public class ENCRYPTOR_MAIN extends Activity {
 	//update content of EditText
 	private void updateContent()
 	{
-		//for debug
-		byte[] debugbytes = editTextContent.getText().toString().getBytes();
-		textViewDebug.append("\nchar array of original msg in default charset:");
-		for(byte b : debugbytes)
+		//verify if key value is valid
+		int key = Integer.valueOf(editTextKey.getText().toString());
+		if(key<1 || key>255)
 		{
-			textViewDebug.append(String.format("%02x ", b));
+			Toast.makeText(this, R.string.KEY_ERR, Toast.LENGTH_SHORT).show();
+			return;
 		}
-		textViewDebug.append("\n");
+		
+		//for debug
+		textViewDebug.append("\nkey value:"+key+"\n");
 		////////////////////////////////////////////
 		
 		updateEncryptionStatus();
 		if(EncryptionStatus == ENCRYPTION_STATUS.ENCRYPTED)
 		{
 			//encrypt message
-			String tmp = encryptString(editTextContent.getText().toString());
+			String tmp = encryptString(editTextContent.getText().toString(), (byte)key);
 			editTextContent.setText(tmp);
 		}
 		else
 		{
 			//decrypt message
-			String tmp = decryptString(editTextContent.getText().toString());
+			String tmp = decryptString(editTextContent.getText().toString(), (byte)key);
 			editTextContent.setText(tmp);
 		}
 	}
 	
 	
-	private String encryptString(String msg)
+	private String encryptString(String msg, byte key)
 	{
 		//encode string with UTF-16 firstly, then get byte array
 		byte[] bytes = msg.getBytes(Charset.forName("UTF-16LE"));
@@ -117,14 +116,14 @@ public class ENCRYPTOR_MAIN extends Activity {
 		//shift each byte by 1
 		for(int i=0; i<bytes.length; i++)
 		{
-			bytes[i]++;
+			bytes[i] += key;
 		}
 		//change byte array back to string format using UTF-16 charset
 		String transformed = new String(bytes, Charset.forName("UTF-16LE"));
 		return transformed;
 	}
 	
-	private String decryptString(String transformed)
+	private String decryptString(String transformed, byte key)
 	{
 		//encode with UTF-16, then get byte array
 		byte[] bytes = transformed.getBytes(Charset.forName("UTF-16LE"));
@@ -141,7 +140,7 @@ public class ENCRYPTOR_MAIN extends Activity {
 		//decrease 1 to get original byte
 		for(int i=0; i<bytes.length; i++)
 		{
-			bytes[i]--;
+			bytes[i] -= key;
 		}
 		//transform byte array to string using charset UTF-16
 		String original = new String(bytes, Charset.forName("UTF-16LE"));
@@ -158,54 +157,6 @@ public class ENCRYPTOR_MAIN extends Activity {
 		return original;
 	}
 
-	private String encryptString2(String msg)
-	{
-		//get char array
-		char[] chars = msg.toCharArray();
-		
-		//for debug
-		textViewDebug.append("\nmsg array:");
-		for(char c : chars)
-		{
-			textViewDebug.append(String.format("%02x ", c));
-		}
-		textViewDebug.append("\n");
-		/////////////////////////////
-		
-		//shift each byte by 1
-		for(int i=0; i<chars.length; i++)
-		{
-			chars[i]++;
-		}
-		//change byte array back to string format using UTF-16 charset
-		String transformed = String.valueOf(chars);
-		return transformed;
-	}
-	
-	private String decryptString2(String transformed)
-	{
-		//encode with UTF-16, then get byte array
-		char[] chars = transformed.toCharArray();
-		
-		//for debug
-				textViewDebug.append("\ntransformed msg array:");
-				for(char c : chars)
-				{
-					textViewDebug.append(String.format("%02x ", c));
-				}
-				textViewDebug.append("\n");
-				/////////////////////////////
-				
-		//decrease 1 to get original byte
-		for(int i=0; i<chars.length; i++)
-		{
-			chars[i]--;
-		}
-		//transform byte array to string using charset UTF-16
-		String original = String.valueOf(chars);
-		
-		return original;
-	}
 	private enum ENCRYPTION_STATUS
 	{
 		ENCRYPTED,
