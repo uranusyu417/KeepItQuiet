@@ -8,5 +8,10 @@
     <string name="CONTENT_HINT">Please enter content for encryption or decryption</string>
     <string name="KEY_HINT">key(1&#8211;255)</string>
     <string name="KEY_ERR">Key value is not within 1&#8211;255</string>
+    <string name="BUTTON_ENCRYPT">ENCRYPT</string>
+    <string name="BUTTON_DECRYPT">DECRYPT</string>
+    <string name="TOGGLE_DEBUG">Show Debug Message</string>
+    <string name="COPY_TO_CLIP">Copy content to clipboard</string>
+    <string name="PASTE_FROM_CLIP">Paste content from clipboard</string>
 
 </resources>

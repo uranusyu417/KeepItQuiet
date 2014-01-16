@@ -26,53 +26,73 @@
             <requestFocus />
         </EditText>
 
-        <RadioGroup
-            android:id="@+id/radioGroupEncryptionStatus"
+        <EditText
+            android:id="@+id/editTextKey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/editTextContent"
             android:layout_below="@+id/editTextContent"
-            android:layout_marginTop="20dp" >
-
-            <RadioButton
-                android:id="@+id/radioEncrypted"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/ENCRYPTED" />
-
-            <RadioButton
-                android:id="@+id/radioDecrypted"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/DECRYPTED" />
-        </RadioGroup>
+            android:ems="10"
+            android:hint="@string/KEY_HINT"
+            android:inputType="numberDecimal" />
 
         <Button
-            android:id="@+id/buttonUpdate"
+            android:id="@+id/buttonEncrypt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/radioGroupEncryptionStatus"
-            android:layout_below="@+id/radioGroupEncryptionStatus"
-            android:text="Update" />
+            android:layout_alignLeft="@+id/editTextKey"
+            android:layout_below="@+id/editTextKey"
+            android:text="@string/BUTTON_ENCRYPT" />
+
+        <Button
+            android:id="@+id/buttonDecrypt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/buttonEncrypt"
+            android:layout_alignBottom="@+id/buttonEncrypt"
+            android:layout_toRightOf="@+id/buttonEncrypt"
+            android:text="@string/BUTTON_DECRYPT" />
+        
+        <Button
+            android:id="@+id/buttonCopyToClip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/buttonEncrypt"
+            android:layout_below="@id/buttonEncrypt"
+            android:text="@string/COPY_TO_CLIP" />
+        
+        <Button
+            android:id="@+id/buttonPasteFromClip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/buttonCopyToClip"
+            android:layout_below="@id/buttonCopyToClip"
+            android:text="@string/PASTE_FROM_CLIP" />
+        
+        <TextView
+            android:id="@+id/textViewShowDebug"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/buttonPasteFromClip"
+            android:layout_below="@id/buttonPasteFromClip"
+            android:layout_marginTop="20dp"
+            android:text="@string/TOGGLE_DEBUG" />
+
+        <ToggleButton
+            android:id="@+id/toggleButtonDebug"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/textViewShowDebug"
+            android:layout_toRightOf="@id/textViewShowDebug"
+            android:text="@string/TOGGLE_DEBUG" />        
 
         <TextView
             android:id="@+id/textViewDebug"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/buttonUpdate"
-            android:layout_below="@+id/buttonUpdate" />
+            android:layout_alignLeft="@+id/textViewShowDebug"
+            android:layout_below="@id/toggleButtonDebug" />
 
-        <EditText
-            android:id="@+id/editTextKey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/radioGroupEncryptionStatus"
-            android:layout_marginLeft="25dp"
-            android:layout_toRightOf="@+id/radioGroupEncryptionStatus"
-            android:ems="10"
-            android:hint="@string/KEY_HINT"
-            android:inputType="numberDecimal" />
     </RelativeLayout>
 
 </ScrollView>

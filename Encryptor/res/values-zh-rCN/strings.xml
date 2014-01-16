@@ -8,5 +8,10 @@
     <string name="CONTENT_HINT">请输入需要加密或解密的内容&#8230;</string>
     <string name="KEY_HINT">请输入键值(1&#8211;255)</string>
     <string name="KEY_ERR">加密键值不在有效范围1&#8211;255内</string>
+    <string name="BUTTON_ENCRYPT">加密</string>
+    <string name="BUTTON_DECRYPT">解密</string>
+    <string name="TOGGLE_DEBUG">显示调试信息</string>
+    <string name="COPY_TO_CLIP">复制内容到剪切板</string>
+    <string name="PASTE_FROM_CLIP">从剪切板粘贴内容</string>
 
 </resources>
