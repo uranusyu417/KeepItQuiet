@@ -121,36 +121,39 @@ public class ENCRYPTOR_MAIN extends Activity {
 	//update content of EditText
 	private void updateContent(ENCRYPTOR_MODE mode)
 	{
-		//verify if key value is valid
-		int key = Integer.valueOf(editTextKey.getText().toString());
-		if(key<1 || key>255)
+		try
 		{
-			Toast.makeText(this, R.string.KEY_ERR, Toast.LENGTH_SHORT).show();
+			int key = Integer.valueOf(editTextKey.getText().toString());
+			// verify if key value is valid
+			if (key < 1 || key > 255)
+			{
+				Toast.makeText(this, R.string.KEY_ERR, Toast.LENGTH_SHORT)
+						.show();
+				return;
+			}
+
+			if (mode == ENCRYPTOR_MODE.ENCRYPTION)
+			{
+				// encrypt message
+				String tmp = encryptString(
+						editTextContent.getText().toString(), (byte) key);
+				editTextContent.setText(tmp);
+			}
+			else if (mode == ENCRYPTOR_MODE.DECRYPTION)
+			{
+				// decrypt message
+				String tmp = decryptString(
+						editTextContent.getText().toString(), (byte) key);
+				editTextContent.setText(tmp);
+			}
+			else
+			{
+				// do nothing
+			}
+		}
+		catch (NumberFormatException e)
+		{
 			return;
-		}
-		
-		//for debug
-		if(DebugOn)
-		{
-		textViewDebug.append("\nkey value:"+key+"\n");
-		}
-		////////////////////////////////////////////
-		
-		if(mode == ENCRYPTOR_MODE.ENCRYPTION)
-		{
-			//encrypt message
-			String tmp = encryptString(editTextContent.getText().toString(), (byte)key);
-			editTextContent.setText(tmp);
-		}
-		else if(mode == ENCRYPTOR_MODE.DECRYPTION)
-		{
-			//decrypt message
-			String tmp = decryptString(editTextContent.getText().toString(), (byte)key);
-			editTextContent.setText(tmp);
-		}
-		else
-		{
-			//do nothing
 		}
 	}
 	
